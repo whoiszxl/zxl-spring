@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="memberDao" class="com.whoiszxl.springframework.test.bean.MemberDao"/>
+
+    <bean id="loginService" class="com.whoiszxl.springframework.test.bean.LoginService">
+        <property name="code" value="zxl-code"/>
+        <property name="memberDao" ref="memberDao"/>
+    </bean>
+
+</beans>

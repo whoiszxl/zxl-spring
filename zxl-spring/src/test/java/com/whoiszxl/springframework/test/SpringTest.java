@@ -6,11 +6,40 @@ import com.whoiszxl.springframework.beans.factory.BeanFactory;
 import com.whoiszxl.springframework.beans.factory.config.BeanDefinition;
 import com.whoiszxl.springframework.beans.factory.config.BeanReference;
 import com.whoiszxl.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.whoiszxl.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import com.whoiszxl.springframework.core.io.DefaultResourceLoader;
+import com.whoiszxl.springframework.core.io.Resource;
 import com.whoiszxl.springframework.test.bean.LoginService;
 import com.whoiszxl.springframework.test.bean.MemberDao;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class SpringTest {
+
+    private DefaultResourceLoader resourceLoader;
+
+    @Before
+    public void init() {
+        resourceLoader = new DefaultResourceLoader();
+    }
+
+    @Test
+    public void testXml() throws IOException {
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
+
+        LoginService loginService = beanFactory.getBean("loginService", LoginService.class);
+        Boolean flag = loginService.login("zxl2", "123456");
+        if(flag) {
+            System.out.println("登录成功");
+        }else {
+            System.out.println("登录失败");
+        }
+    }
 
     @Test
     public void test_one() {
