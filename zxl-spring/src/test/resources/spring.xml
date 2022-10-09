@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-    <bean id="memberDao" class="com.whoiszxl.springframework.test.bean.MemberDao" init-method="initDataMethod" destroy-method="destroyDataMethod"/>
 
-    <bean id="loginService" class="com.whoiszxl.springframework.test.bean.LoginService">
-        <property name="code" value="zxl-code"/>
-        <property name="memberDao" ref="memberDao"/>
-        <property name="type" value="QQ登录"/>
-        <property name="result" value="QQ登录成功"/>
-    </bean>
+<!--    <bean id="loginService" class="com.whoiszxl.springframework.test.bean.LoginService" scope="prototype">-->
+<!--        <property name="code" value="zxl-code"/>-->
+<!--        <property name="memberDao" ref="proxyMemberDao"/>-->
+<!--        <property name="type" value="QQ登录"/>-->
+<!--        <property name="result" value="QQ登录成功"/>-->
+<!--    </bean>-->
 
-    <bean class="com.whoiszxl.springframework.test.common.MyBeanPostProcessor"/>
-    <bean class="com.whoiszxl.springframework.test.common.MyBeanFactoryPostProcessor"/>
+<!--    <bean id="proxyMemberDao" class="com.whoiszxl.springframework.test.bean.ProxyBeanFactory"/>-->
+
+
+    <bean class="com.whoiszxl.springframework.test.event.ContextRefreshedEventListener"/>
+    <bean class="com.whoiszxl.springframework.test.event.CustomEventListener"/>
+    <bean class="com.whoiszxl.springframework.test.event.ContextClosedEventListener"/>
+
+
+
 
 </beans>

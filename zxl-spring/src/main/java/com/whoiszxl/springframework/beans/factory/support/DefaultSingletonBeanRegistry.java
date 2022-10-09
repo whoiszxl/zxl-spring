@@ -4,21 +4,30 @@ import com.whoiszxl.springframework.beans.factory.DisposableBean;
 import com.whoiszxl.springframework.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 默认的单例bean注册器实现
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
-    private Map<String, Object> singletonObjects = new HashMap<>();
+    protected static final Object NULL_OBJECT = new Object();
 
-    private final Map<String, DisposableBean> disposableBeanMap = new HashMap<>();
+    private Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
+
+    private final Map<String, DisposableBean> disposableBeanMap = new LinkedHashMap<>();
 
     @Override
     public Object getSingleton(String beanName) {
         return singletonObjects.get(beanName);
+    }
+
+    @Override
+    public void registerSingleton(String beanName, Object singletonObject) {
+        singletonObjects.put(beanName, singletonObject);
     }
 
     /**

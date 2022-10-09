@@ -8,6 +8,11 @@ import com.whoiszxl.springframework.beans.PropertyValues;
  */
 public class BeanDefinition {
 
+    String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
+
+    String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
+
     /**
      * 将对象改变为class类，将实例化操作放到容器中进行处理
      */
@@ -27,6 +32,12 @@ public class BeanDefinition {
      * 销毁方法名称
      */
     private String destroyMethodName;
+
+    private String scope = SCOPE_SINGLETON;
+
+    private boolean singleton = true;
+
+    private boolean prototype = false;
 
     public BeanDefinition(Class beanClass) {
         this.beanClass = beanClass;
@@ -68,5 +79,45 @@ public class BeanDefinition {
 
     public void setDestroyMethodName(String destroyMethodName) {
         this.destroyMethodName = destroyMethodName;
+    }
+
+    public String getSCOPE_SINGLETON() {
+        return SCOPE_SINGLETON;
+    }
+
+    public void setSCOPE_SINGLETON(String SCOPE_SINGLETON) {
+        this.SCOPE_SINGLETON = SCOPE_SINGLETON;
+    }
+
+    public String getSCOPE_PROTOTYPE() {
+        return SCOPE_PROTOTYPE;
+    }
+
+    public void setSCOPE_PROTOTYPE(String SCOPE_PROTOTYPE) {
+        this.SCOPE_PROTOTYPE = SCOPE_PROTOTYPE;
+    }
+
+    public boolean isSingleton() {
+        return singleton;
+    }
+
+    public void setSingleton(boolean singleton) {
+        this.singleton = singleton;
+    }
+
+    public boolean isPrototype() {
+        return prototype;
+    }
+
+    public void setPrototype(boolean prototype) {
+        this.prototype = prototype;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 }

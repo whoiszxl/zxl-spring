@@ -11,7 +11,7 @@ import com.whoiszxl.springframework.context.support.ClassPathXmlApplicationConte
 import com.whoiszxl.springframework.core.io.DefaultResourceLoader;
 import com.whoiszxl.springframework.core.io.Resource;
 import com.whoiszxl.springframework.test.bean.LoginService;
-import com.whoiszxl.springframework.test.bean.MemberDao;
+import com.whoiszxl.springframework.test.event.CustomEvent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,12 +34,8 @@ public class SpringTest {
         reader.loadBeanDefinitions("classpath:spring.xml");
 
         LoginService loginService = beanFactory.getBean("loginService", LoginService.class);
-        Boolean flag = loginService.login("zxl2", "123456");
-        if(flag) {
-            System.out.println("登录成功");
-        }else {
-            System.out.println("登录失败");
-        }
+        String flag = loginService.login("zxl2", "123456");
+        System.out.println(flag);
     }
 
     @Test
@@ -59,7 +55,7 @@ public class SpringTest {
     public void test_two() {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-        beanFactory.registerBeanDefinition("memberDao", new BeanDefinition(MemberDao.class));
+        //beanFactory.registerBeanDefinition("memberDao", new BeanDefinition(MemberDao.class));
 
 
         PropertyValues propertyValues = new PropertyValues();
@@ -70,11 +66,6 @@ public class SpringTest {
         beanFactory.registerBeanDefinition("loginService", beanDefinition);
 
         LoginService loginService = (LoginService) beanFactory.getBean("loginService");
-        if(loginService.login("zxl1", "123456")) {
-            System.out.println("登录成功");
-        }else {
-            System.out.println("登陆失败");
-        }
     }
 
 
@@ -85,9 +76,32 @@ public class SpringTest {
         applicationContext.registerShutdownHook();
 
         LoginService loginService = applicationContext.getBean("loginService", LoginService.class);
-        Boolean result = loginService.login("zxl1", "123456");
-        MemberDao memberDao = loginService.getApplicationContext().getBean("memberDao", MemberDao.class);
-        System.out.println("memberDao:::" + memberDao);
+        loginService.login("zxl1", "123456");
+
+    }
+
+    @Test
+    public void testXml3() {
+        ClassPathXmlApplicationContext applicationContext
+                = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+
+        LoginService loginService1 = applicationContext.getBean("loginService", LoginService.class);
+        LoginService loginService2 = applicationContext.getBean("loginService", LoginService.class);
+
+        System.out.println(loginService1);
+        System.out.println(loginService2);
+
+        String result = loginService1.login("zxl1", "123456");
         System.out.println(result);
+
+    }
+
+
+    @Test
+    public void testEvent() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1000L, "eureka!!"));
+        applicationContext.registerShutdownHook();
     }
 }

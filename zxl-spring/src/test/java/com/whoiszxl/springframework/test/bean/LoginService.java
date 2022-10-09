@@ -11,6 +11,8 @@ public class LoginService implements InitializingBean, DisposableBean, BeanNameA
 
     private BeanFactory beanFactory;
 
+    private IMemberDao memberDao;
+
     @Override
     public void setBeanFactory(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
@@ -33,24 +35,14 @@ public class LoginService implements InitializingBean, DisposableBean, BeanNameA
 
     private String code;
 
-    private MemberDao memberDao;
-
     private String type;
 
     private String result;
 
-    public Boolean login(String username, String password) {
+    public String login(String username, String password) {
         return memberDao.queryMember(username, password);
     }
 
-
-
-    @Override
-    public String toString() {
-        return "LoginService{" +
-                "code='" + code + '\'' +
-                '}';
-    }
 
     public String getType() {
         return type;
