@@ -7,6 +7,7 @@ import com.whoiszxl.springframework.beans.factory.config.BeanDefinition;
 import com.whoiszxl.springframework.beans.factory.config.BeanReference;
 import com.whoiszxl.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.whoiszxl.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import com.whoiszxl.springframework.context.support.ClassPathXmlApplicationContext;
 import com.whoiszxl.springframework.core.io.DefaultResourceLoader;
 import com.whoiszxl.springframework.core.io.Resource;
 import com.whoiszxl.springframework.test.bean.LoginService;
@@ -74,5 +75,19 @@ public class SpringTest {
         }else {
             System.out.println("登陆失败");
         }
+    }
+
+
+
+    @Test
+    public void testXml2() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+
+        LoginService loginService = applicationContext.getBean("loginService", LoginService.class);
+        Boolean result = loginService.login("zxl1", "123456");
+        MemberDao memberDao = loginService.getApplicationContext().getBean("memberDao", MemberDao.class);
+        System.out.println("memberDao:::" + memberDao);
+        System.out.println(result);
     }
 }

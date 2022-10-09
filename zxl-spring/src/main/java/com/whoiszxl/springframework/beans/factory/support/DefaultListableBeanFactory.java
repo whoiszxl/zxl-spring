@@ -3,6 +3,7 @@ package com.whoiszxl.springframework.beans.factory.support;
 import com.whoiszxl.springframework.beans.BeansException;
 import com.whoiszxl.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.whoiszxl.springframework.beans.factory.config.BeanDefinition;
+import com.whoiszxl.springframework.beans.factory.config.BeanPostProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,4 +49,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return beanDefinition;
     }
 
+
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
+    }
 }
