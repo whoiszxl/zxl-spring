@@ -13,6 +13,10 @@ public class LoginService implements InitializingBean, DisposableBean, BeanNameA
 
     private IMemberDao memberDao;
 
+    public void say() {
+        System.out.println("hello!!!");
+    }
+
     @Override
     public void setBeanFactory(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;

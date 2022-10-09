@@ -1,5 +1,6 @@
 package com.whoiszxl.springframework.test;
 
+import com.whoiszxl.springframework.aop.aspectj.AspectJExpressionPointcut;
 import com.whoiszxl.springframework.beans.PropertyValue;
 import com.whoiszxl.springframework.beans.PropertyValues;
 import com.whoiszxl.springframework.beans.factory.BeanFactory;
@@ -14,8 +15,10 @@ import com.whoiszxl.springframework.test.bean.LoginService;
 import com.whoiszxl.springframework.test.event.CustomEvent;
 import org.junit.Before;
 import org.junit.Test;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class SpringTest {
 
@@ -103,5 +106,15 @@ public class SpringTest {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         applicationContext.publishEvent(new CustomEvent(applicationContext, 1000L, "eureka!!"));
         applicationContext.registerShutdownHook();
+    }
+
+    @Test
+    public void aopTest() throws NoSuchMethodException {
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut("execution(* com.whoiszxl.springframework.test.bean.LoginService.*(..))");
+        Class<LoginService> clazz = LoginService.class;
+
+        Method method = clazz.getDeclaredMethod("say");
+        System.out.println(pointcut.matches(clazz));
+        System.out.println(pointcut.matches(method, clazz));
     }
 }
